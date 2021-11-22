@@ -1,6 +1,6 @@
 # Super*Duper*Drive Cloud Storage
 
-1. **Simple File Storage:** Upload/download/remove files
+1. **File Storage:** Upload/download/remove files to the Cloud
 2. **Note Management:** Add/update/remove text notes
 3. **Password Management:** Save, edit, and delete website credentials.  
 
