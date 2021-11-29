@@ -1,6 +1,6 @@
 package cloudstorage.Controller;
 
-import cloudstorage.Model.DAO.users;
+import cloudstorage.Model.DAO.user;
 import com.google.common.base.Strings;
 import cloudstorage.DAO_Mapper.UserMapper;
 import cloudstorage.Model.Form.AuthUserForm;
@@ -46,7 +46,7 @@ public class RegisterController {
         if ( !Strings.isNullOrEmpty( username )  && !Strings.isNullOrEmpty( password )  && !Strings.isNullOrEmpty( firstname ) && !Strings.isNullOrEmpty( lastname )   ){
 
             if(userMapper.findUser(username)== null    ) {
-                userService.createUser(new users(registerform.getUsername(), null, registerform.getPassword(), registerform.getFirstname(), registerform.getLastname())); // INsert Message into the database via MyBatis
+                userService.createUser(new user(registerform.getUsername(), null, registerform.getPassword(), registerform.getFirstname(), registerform.getLastname())); // INsert Message into the database via MyBatis
             }
             else if (userMapper.findUser(username)!= null && password!=null  && firstname!=null && lastname!=null ){
                 result.rejectValue("username", null, "There is already an account registered with that username");

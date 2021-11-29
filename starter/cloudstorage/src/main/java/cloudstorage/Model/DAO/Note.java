@@ -1,6 +1,6 @@
 package cloudstorage.Model.DAO;
 
-public class Notes {
+public class Note {
 
 
     private Integer noteid;
@@ -9,13 +9,23 @@ public class Notes {
     private Integer userid;
 
 
-    public Notes(Integer noteid, String notetitle, String notedescription, Integer userid) {
+    public Note(Integer noteid, String notetitle, String notedescription, Integer userid) {
         this.noteid = noteid;
         this.notetitle = notetitle;
         this.notedescription = notedescription;
         this.userid = userid;
     }
 
+
+    @Override
+    public String toString() {
+        return "Notes{" +
+                "noteid=" + noteid +
+                ", notetitle='" + notetitle + '\'' +
+                ", notedescription='" + notedescription + '\'' +
+                ", userid=" + userid +
+                '}';
+    }
 
     public Integer getNoteid() {
         return noteid;

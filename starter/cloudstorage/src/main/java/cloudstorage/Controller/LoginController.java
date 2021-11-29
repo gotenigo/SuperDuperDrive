@@ -26,27 +26,11 @@ public class LoginController {
 
 
     @GetMapping
-    public String getLoginPage(AuthUserForm registerform, CsrfToken token, Model model, @RequestParam(value = "error", required = false) Boolean error) {
-        // the token will be injected automatically
-
-
-        if (error != null  && error ) {
-            model.addAttribute("LongonStatus", "Logon_Failure");
-        }
-        return "login.html";
-    }
-
-
-
-    @PostMapping
-    public String postLoginPage(Authentication authentication, AuthUserForm registerform, CsrfToken token, Model model) {
-
-        System.out.println("===========> ZOZO");
-        /*	We use Thymeleaf to automatically add the CSRF token to our form.
-        If we were not using Thymleaf or Spring MVCs taglib we could also manually add the CSRF token using <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>.*/
+    public String loginView( ) {
 
         return "login.html";
     }
+
 
 
 

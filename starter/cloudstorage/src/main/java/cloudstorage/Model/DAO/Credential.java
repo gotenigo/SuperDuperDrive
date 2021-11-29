@@ -1,6 +1,6 @@
 package cloudstorage.Model.DAO;
 
-public class Credentials {
+public class Credential {
 
 
     private Integer credentialid;
@@ -11,7 +11,7 @@ public class Credentials {
     private String userid;
 
 
-    public Credentials(Integer credentialid, String url, String username, String key, String password, String userid) {
+    public Credential(Integer credentialid, String url, String username, String key, String password, String userid) {
         this.credentialid = credentialid;
         this.url = url;
         this.username = username;
@@ -20,6 +20,18 @@ public class Credentials {
         this.userid = userid;
     }
 
+
+    @Override
+    public String toString() {
+        return "Credentials{" +
+                "credentialid=" + credentialid +
+                ", url='" + url + '\'' +
+                ", username='" + username + '\'' +
+                ", key='" + key + '\'' +
+                ", password='" + password + '\'' +
+                ", userid='" + userid + '\'' +
+                '}';
+    }
 
     public Integer getCredentialid() {
         return credentialid;

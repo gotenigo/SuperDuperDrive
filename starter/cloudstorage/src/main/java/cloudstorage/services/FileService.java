@@ -1,4 +1,4 @@
 package cloudstorage.services;
 
-public class FilesService {
+public class FileService {
 }

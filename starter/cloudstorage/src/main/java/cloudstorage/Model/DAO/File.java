@@ -2,7 +2,7 @@ package cloudstorage.Model.DAO;
 
 import java.sql.Blob;
 
-public class Files {
+public class File {
 
 
     private Integer fileId;
@@ -10,18 +10,30 @@ public class Files {
     private String contenttype;
     private String filesize;
     private Integer userid;
-    private Blob BLOB;
+    private Blob filedata;
 
 
-    public Files(Integer fileId, String filename, String contenttype, String filesize, Integer userid, Blob BLOB) {
+    public File(Integer fileId, String filename, String contenttype, String filesize, Integer userid, Blob BLOB) {
         this.fileId = fileId;
         this.filename = filename;
         this.contenttype = contenttype;
         this.filesize = filesize;
         this.userid = userid;
-        this.BLOB = BLOB;
+        this.filedata = BLOB;
     }
 
+
+    @Override
+    public String toString() {
+        return "Files{" +
+                "fileId=" + fileId +
+                ", filename='" + filename + '\'' +
+                ", contenttype='" + contenttype + '\'' +
+                ", filesize='" + filesize + '\'' +
+                ", userid=" + userid +
+                ", filedata=" + filedata +
+                '}';
+    }
 
     public Integer getFileId() {
         return fileId;
@@ -63,11 +75,12 @@ public class Files {
         this.userid = userid;
     }
 
-    public Blob getBLOB() {
-        return BLOB;
+
+    public Blob getFiledata() {
+        return filedata;
     }
 
-    public void setBLOB(Blob BLOB) {
-        this.BLOB = BLOB;
+    public void setFiledata(Blob filedata) {
+        this.filedata = filedata;
     }
 }

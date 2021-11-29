@@ -2,7 +2,7 @@ package cloudstorage.services;
 
 
 import cloudstorage.DAO_Mapper.UserMapper;
-import cloudstorage.Model.DAO.users;
+import cloudstorage.Model.DAO.user;
 import cloudstorage.services.Security.HashService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class UserService {
 
 
 
-    public int createUser(users Users) {
+    public int createUser(user Users) {
 
         log.info("==>GG.....createUser called :"+Users+" \n");
 
@@ -31,7 +31,7 @@ public class UserService {
         random.nextBytes(salt);
         String encodedSalt = Base64.getEncoder().encodeToString(salt);
         String hashedPassword = hashService.getHashedValue(Users.getPassword(), encodedSalt); // made from HASH(orignal password , Salt)
-        return userMapper.insertUser(new users(null, Users.getUsername(), encodedSalt, hashedPassword, Users.getFirstname(), Users.getLastname()));
+        return userMapper.insertUser(new user(null, Users.getUsername(), encodedSalt, hashedPassword, Users.getFirstname(), Users.getLastname()));
     }
 
 

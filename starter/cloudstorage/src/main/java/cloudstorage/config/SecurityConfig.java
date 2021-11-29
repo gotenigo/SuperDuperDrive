@@ -1,4 +1,4 @@
-package cloudstorage.configuration;
+package cloudstorage.config;
 
 import cloudstorage.services.Security.AuthenticationService;
 import org.springframework.context.annotation.Configuration;
