@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/register")
-public class RegisterController {
+@RequestMapping("/signup")
+public class SignupController {
 
 
 
