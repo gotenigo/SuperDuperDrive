@@ -1,10 +1,8 @@
 package cloudstorage.Controller;
 
-import cloudstorage.DAO_Mapper.UserMapper;
+
 import cloudstorage.Model.Form.AuthUserForm;
-import cloudstorage.services.AuthenticationService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -16,38 +14,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
-@RequestMapping("/login")
-public class LoginController {
-
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    AuthenticationService authenticationService;
+@RequestMapping("/Home")
+public class HomeController {
 
 
     @GetMapping
-    public String getLoginPage(AuthUserForm registerform, CsrfToken token, Model model, @RequestParam(value = "error", required = false) Boolean error) {
-        // the token will be injected automatically
+    public String getLoginPage(/*Authentication authentication, HomeForm chatForm,*/ Model model) {
 
-
-        if (error != null  && error ) {
-            model.addAttribute("LongonStatus", "Logon_Failure");
-        }
-        return "login.html";
+        return "home.html";
     }
 
 
 
     @PostMapping
-    public String postLoginPage(Authentication authentication, AuthUserForm registerform, CsrfToken token, Model model) {
+    public String postLoginPage(/*Authentication authentication, HomeForm chatForm,*/ Model model) {
 
         System.out.println("===========> ZOZO");
         /*	We use Thymeleaf to automatically add the CSRF token to our form.
         If we were not using Thymleaf or Spring MVCs taglib we could also manually add the CSRF token using <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>.*/
 
-        return "login.html";
+        return "home.html";
     }
-
-
-
 }
