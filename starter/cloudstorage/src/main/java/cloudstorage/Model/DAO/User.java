@@ -1,6 +1,6 @@
 package cloudstorage.Model.DAO;
 
-public class user {
+public class User {
 
 
     private Integer userid;
@@ -11,7 +11,7 @@ public class user {
     private String lastname;
 
 
-    public user(Integer userid, String username, String salt, String password, String firstname, String lastname) {
+    public User(Integer userid, String username, String salt, String password, String firstname, String lastname) {
         this.userid = userid;
         this.username = username;
         this.salt = salt;
@@ -21,7 +21,7 @@ public class user {
     }
 
 
-    public user(String username, String salt, String password, String firstname, String lastname) {
+    public User(String username, String salt, String password, String firstname, String lastname) {
         this.username = username;
         this.salt = salt;
         this.password = password;
@@ -74,19 +74,19 @@ public class user {
         this.password = password;
     }
 
-    public String getFirstname() {
+    public String getFirstName() {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirstName(String firstname) {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
+    public String getLastName() {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setLastName(String lastname) {
         this.lastname = lastname;
     }
 

@@ -4,7 +4,7 @@ package cloudstorage.services;
 import cloudstorage.DAO_Mapper.NoteMapper;
 import cloudstorage.DAO_Mapper.UserMapper;
 import cloudstorage.Model.DAO.Note;
-import cloudstorage.Model.DAO.users;
+import cloudstorage.Model.DAO.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
