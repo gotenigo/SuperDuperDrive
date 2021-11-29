@@ -1,6 +1,6 @@
-package cloudstorage.services;
+package cloudstorage.services.Security;
 
-import cloudstorage.Model.Form.DAO.user;
+import cloudstorage.Model.DAO.users;
 import cloudstorage.DAO_Mapper.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +68,11 @@ If both match, the user is successfully authenticated.
         String username = authentication.getName(); // Credentail used by the user on the Login form
         String password = authentication.getCredentials().toString(); // Credentail used by the user on the Login form.  !!! This a clear  password
 
-        user user = userMapper.findUser(username);
-        if (user != null) {
-            String encodedSalt = user.getSalt();
+        users Users = userMapper.findUser(username);
+        if (Users != null) {
+            String encodedSalt = Users.getSalt();
             String hashedPassword = hashService.getHashedValue(password, encodedSalt);
-            if (user.getPassword().equals(hashedPassword)) {
+            if (Users.getPassword().equals(hashedPassword)) {
 
 
                 return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());

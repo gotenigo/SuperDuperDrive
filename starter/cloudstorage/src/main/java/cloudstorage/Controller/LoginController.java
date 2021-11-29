@@ -2,7 +2,7 @@ package cloudstorage.Controller;
 
 import cloudstorage.DAO_Mapper.UserMapper;
 import cloudstorage.Model.Form.AuthUserForm;
-import cloudstorage.services.AuthenticationService;
+import cloudstorage.services.Security.AuthenticationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

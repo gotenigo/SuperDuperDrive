@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
-@RequestMapping("/Home")
+@RequestMapping("/home")
 public class HomeController {
 
 
     @GetMapping
     public String getLoginPage(/*Authentication authentication, HomeForm chatForm,*/ Model model) {
+
+        System.out.println("===========> in Home - GET ZOZO");
 
         return "home.html";
     }
@@ -29,7 +31,7 @@ public class HomeController {
     @PostMapping
     public String postLoginPage(/*Authentication authentication, HomeForm chatForm,*/ Model model) {
 
-        System.out.println("===========> ZOZO");
+        System.out.println("===========> in Home -  POST ZOZO");
         /*	We use Thymeleaf to automatically add the CSRF token to our form.
         If we were not using Thymleaf or Spring MVCs taglib we could also manually add the CSRF token using <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>.*/
 
