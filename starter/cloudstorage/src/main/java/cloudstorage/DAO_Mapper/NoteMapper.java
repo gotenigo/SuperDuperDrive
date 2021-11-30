@@ -9,15 +9,21 @@ import org.apache.ibatis.annotations.*;
 public interface NoteMapper {
 
 
-    @Select("SELECT noteid,notetitle,notedescription,userid FROM Notes WHERE userid = #{userid}")
+    @Select("SELECT noteid,notetitle,notedescription,userid FROM NOTES WHERE userid = #{userid}")
     Note findNotes(Integer userid);
 
-    @Insert("INSERT INTO user (notetitle,notedescription,userid) VALUES(#{notetitle}, #{notedescription},#{userid}")
+    @Insert("INSERT INTO NOTES (notetitle,notedescription,userid) VALUES(#{notetitle}, #{notedescription},#{userid}")
     @Options(useGeneratedKeys = true, keyProperty = "noteid")
     int insertNote(Note notes);
 
-    @Delete("DELETE FROM Notes WHERE noteid = #{noteid}")
+    @Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
     void delete(Integer noteid);
+
+
+    @Update("UPDATE NOTES SET notetitle=#{notetitle},notedescription=#{notedescription} WHERE noteid = #{noteid}")
+    int UpdateNote(Integer noteid);
+
+
 
 
 }

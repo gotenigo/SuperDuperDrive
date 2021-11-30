@@ -15,18 +15,20 @@ public class NoteService {
 
 
     @Autowired
-    private NoteMapper notesMapper;
+    private NoteMapper noteMapper;
 
 
 
     public int createNote(Note note) {
-
         log.info("==>GG.....createNote called :"+note+" \n");
+        return noteMapper.insertNote(note);
+    }
 
 
-        return notesMapper.insertNote(note);
 
-
+    public void DeleteNote(Integer noteid) {
+        log.info("==>GG.....DeleteNote called :"+noteid+" \n");
+        noteMapper.delete(noteid);
     }
 
 

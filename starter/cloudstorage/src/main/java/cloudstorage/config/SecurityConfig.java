@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //.antMatchers(staticResources).permitAll()
-                .antMatchers("/images/*","/register", "/css/**", "/js/**","/h2-console/**","/home/**").permitAll()
+                .antMatchers("/images/*","/signup", "/css/**", "/js/**","/h2-console/**","/home/**").permitAll()
                 .anyRequest().authenticated();
 
         //Which authentication methods are allowed (formLogin(), httpBasic()) and how they are configured.
