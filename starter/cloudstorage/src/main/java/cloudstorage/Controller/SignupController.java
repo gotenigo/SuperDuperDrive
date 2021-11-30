@@ -22,8 +22,6 @@ public class SignupController {
 
 
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private UserService userService;
 
 
