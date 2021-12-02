@@ -33,14 +33,10 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class FileController {
 
     @Autowired
     private FileService fileService;
-    @Autowired
-    private NoteService noteService;
-    @Autowired
-    private CredentialService credentialService;
 
     @Autowired
     private UserService userService;
@@ -172,73 +168,6 @@ public class HomeController {
     @PostMapping("/Uploadfile")
     //@RequestParam("file") +> so a file is expected, otherwise throw an error
     public String FileUpload(@RequestParam("fileUpload") MultipartFile file , Model model, HttpServletRequest req,Authentication authentication) {
-
-        log.info("===========> in Home -  POST =>FileUpload called : "+req.getRequestURL());
-
-        String username=authentication.getName();
-        Integer userid;
-
-        if (!file.isEmpty()) {
-
-            try {
-
-                // Get the file data
-                byte[] Databytes = file.getBytes();
-
-                log.info("=> Databytes =" + Databytes);
-
-                log.info("===========> file.getName() " + file.getName());
-                log.info("===========> file.getOriginalFilename() " + file.getOriginalFilename());
-                log.info("===========> file.getContentType() " + file.getContentType());
-                log.info("===========> file.getSize() " + Long.toString(file.getSize()));
-
-                //save file data into the database under BLOB
-                fileService.createFile(new File(null, file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), 1, Databytes));
-
-                model.addAttribute("message",
-                        "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-
-            model.addAttribute("message", "Incorrect File Upload");
-            log.error("File is empty !" );
-        }
-
-
-        // !!!! Check if this could be worked around by in-memory process !!!! rather than calling DB all the time
-        User user =userService.getUser(username);
-        userid=user.getUserid();
-        model.addAttribute("FileList", fileService.GetFileList(userid) );
-
-
-        return "home.html";
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @PostMapping("/UploadNote")
-    //@RequestParam("file") +> so a file is expected, otherwise throw an error
-    public String UploadNote(@RequestParam("fileUpload") MultipartFile file , Model model, HttpServletRequest req,Authentication authentication) {
 
         log.info("===========> in Home -  POST =>FileUpload called : "+req.getRequestURL());
 
