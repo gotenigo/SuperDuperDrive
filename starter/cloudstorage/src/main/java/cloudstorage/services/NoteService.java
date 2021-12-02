@@ -3,11 +3,14 @@ package cloudstorage.services;
 
 import cloudstorage.DAO_Mapper.NoteMapper;
 import cloudstorage.DAO_Mapper.UserMapper;
+import cloudstorage.Model.DAO.File;
 import cloudstorage.Model.DAO.Note;
 import cloudstorage.Model.DAO.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -31,6 +34,19 @@ public class NoteService {
         noteMapper.delete(noteid);
     }
 
+
+
+    public List<Note> GetNoteList(Integer userid) {
+        log.info("==>GG.....GetNoteList called :"+userid+" \n");
+         return noteMapper.findNotes(userid);
+    }
+
+
+
+    public Note ViewNote(Integer noteid) {
+        log.info("==>GG.....ViewNote called :"+noteid+" \n");
+        return noteMapper.GetNote(noteid);
+    }
 
 
 

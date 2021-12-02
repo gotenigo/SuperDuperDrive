@@ -4,6 +4,7 @@ package cloudstorage.services;
 import cloudstorage.DAO_Mapper.UserMapper;
 import cloudstorage.Model.DAO.User;
 import cloudstorage.services.Security.HashService;
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,35 @@ public class UserService {
         String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
         return userMapper.insert(new User(null, user.getUsername(), encodedSalt, hashedPassword, user.getFirstName(), user.getLastName()));
     }
+
+
+
+
+
+
+    public boolean isUserValid(User user){
+
+
+        boolean value=false;
+
+        System.out.println("=> We are in isUserValid !");
+        System.out.println(user);
+
+
+        String password=user.getPassword();
+        String username=user.getUsername();
+        String firstname=user.getLastName();
+        String lastname=user.getLastName();
+
+        if ( !Strings.isNullOrEmpty( username )  && !Strings.isNullOrEmpty( password )
+                && !Strings.isNullOrEmpty( firstname ) && !Strings.isNullOrEmpty( lastname )   ){
+            value=true;
+        }
+
+        return value;
+    }
+
+
 
     public User getUser(String username) {
         return userMapper.getUser(username);

@@ -5,12 +5,17 @@ package cloudstorage.DAO_Mapper;
 import cloudstorage.Model.DAO.Credential;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface CredentialMapper {
 
 
     @Select("SELECT credentialid,url,username,key,password,userid FROM CREDENTIALS WHERE userid = #{userid}")
-    Credential findCredentials(Integer userid);
+    List<Credential> findCredentials(Integer userid);
+
+    @Select("SELECT credentialid,url,username,key,password,userid FROM CREDENTIALS WHERE credentialid = #{credentialid}")
+    Credential GetCredential(Integer credentialid);
 
     @Insert("INSERT INTO user (url,username,key,password,userid FROM CREDENTIALS) VALUES(#{url}, #{username},#{key}, #{password},#{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialid")

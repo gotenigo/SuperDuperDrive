@@ -21,14 +21,6 @@ public class User {
     }
 
 
-    public User(String username, String salt, String password, String firstname, String lastname) {
-        this.username = username;
-        this.salt = salt;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
 
     @Override
     public String toString() {

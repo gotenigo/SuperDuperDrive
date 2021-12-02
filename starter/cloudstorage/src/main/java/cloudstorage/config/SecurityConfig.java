@@ -14,18 +14,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     
     
-/*
-    String[] staticResources  =  {
-            "/css/**",
-            "/images/**",
-            "/fonts/**",
-            "/scripts/**",
-            "/jquery/**",
-            "/js/**",
-            "/scss/**",
-            "/.sass-cache/**"
-    };*/
-
     private AuthenticationService authenticationService;
 
 
@@ -44,29 +32,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //.antMatchers(staticResources).permitAll()
-                .antMatchers("/images/*","/signup", "/css/**", "/js/**","/h2-console/**","/home/**").permitAll()
+                .antMatchers("/images/*","/signup", "/css/**", "/js/**","/h2-console/**").permitAll()
                 .anyRequest().authenticated();
 
         //Which authentication methods are allowed (formLogin(), httpBasic()) and how they are configured.
         http.formLogin()   //form based authentication is supported
                 .loginPage("/login") //define your custom login page
-                .failureUrl("/login?error=true")
-                //.failureForwardUrl("/login?error")
                 .permitAll();  //to allow any access to any URL (i.e. /login and /login?error) associated to formLogin().
-        //	When authentication fails, the browser is redirected to /login?error
-        //.httpBasic(); /*HTTP Basic authentication*/  //This default configuration is why your application is on lock-down, as soon as you add Spring Security to it. Simple, isn’t it?
-        //	When we are successfully logged out, the browser is redirected to /login?logout so we can display an logout success message by detecting if the parameter logout is non-null.
-                /*.and()
-                .logout()
-                .permitAll();*/
+
+
 
         http.
                 csrf().disable(). // needed for H2 console mode
                 headers().frameOptions().disable(); // needed for H2 console mode
 
+
         http.formLogin()
-                .defaultSuccessUrl("/chat", true);
+                .defaultSuccessUrl("/home", true);
 
 
 
@@ -83,14 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    //only for testing purpose
-    /*
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
-    }*/
 
 
 /**
