@@ -7,8 +7,10 @@ import cloudstorage.services.CredentialService;
 import cloudstorage.services.FileService;
 import cloudstorage.services.NoteService;
 import cloudstorage.services.UserService;
+import com.google.common.io.ByteSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -70,9 +74,6 @@ public class HomeController {
         log.info("===========> username ="+username);
 
 
-
-
-
         User user =userService.getUser(username);
         userid=user.getUserid();
         log.info("===========> userid ="+userid);
@@ -88,31 +89,34 @@ public class HomeController {
 
 
     @GetMapping("/File/View")
-    public String ViewFile( @RequestParam Integer fileId /* URL param :: ?id=fileId*/, Model model,Authentication authentication) {
+    public void ViewFile( HttpServletResponse response,@RequestParam Integer fileId /* URL param :: ?id=fileId*/, Model model,Authentication authentication) throws IOException {
+
+        /*******************************************************************
+            !!! Add  here an IN-MEMORY security check that the fileid belongs to that user
+         ****************************************************************************/
+
+
 
         log.info("===========> in Home -  Get =>ViewFile called   with Param fileId="+fileId);
-
-        String username=authentication.getName();
-        Integer userid;
-        log.info("===========> username ="+username);
-
-
 
         File thefile = fileService.ViewFile(fileId);
         log.info("===========> File ="+thefile);
 
 
-        model.addAttribute("FileList", thefile );
+        byte[] Databytes = thefile.getFiledata();
+        InputStream DataStream = ByteSource.wrap(Databytes).openStream();
 
 
+        try {
+            response.setContentType(thefile.getContenttype());
+            org.apache.commons.io.IOUtils.copy(DataStream, response.getOutputStream());
+            DataStream.close();
+            response.flushBuffer();
 
-        User user =userService.getUser(username);
-        userid=user.getUserid();
-        log.info("===========> userid ="+userid);
-        model.addAttribute("FileList", fileService.GetFileList(userid) );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-        return "home.html";
     }
 
 
@@ -126,6 +130,12 @@ public class HomeController {
 
         log.info("===========> in Home -  Get =>LoadHomePage called  ");
 
+
+        /*******************************************************************
+         !!! Add  here an IN-MEMORY security check that the fileid belongs to that user
+         ****************************************************************************/
+
+
         String username=authentication.getName();
         Integer userid;
         log.info("===========> username ="+username);
@@ -134,7 +144,7 @@ public class HomeController {
 
         fileService.DeleteFile(fileId);
 
-
+        // !!!! Check if this could be worked around by in-memory process !!!! rather than calling DB all the time
         User user =userService.getUser(username);
         userid=user.getUserid();
         log.info("===========> userid ="+userid);
@@ -168,37 +178,37 @@ public class HomeController {
         String username=authentication.getName();
         Integer userid;
 
-        if (file.isEmpty()) {
+        if (!file.isEmpty()) {
+
+            try {
+
+                // Get the file data
+                byte[] Databytes = file.getBytes();
+
+                log.info("=> Databytes =" + Databytes);
+
+                log.info("===========> file.getName() " + file.getName());
+                log.info("===========> file.getOriginalFilename() " + file.getOriginalFilename());
+                log.info("===========> file.getContentType() " + file.getContentType());
+                log.info("===========> file.getSize() " + Long.toString(file.getSize()));
+
+                //save file data into the database under BLOB
+                fileService.createFile(new File(null, file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), 1, Databytes));
+
+                model.addAttribute("message",
+                        "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+
             model.addAttribute("message", "Incorrect File Upload");
             log.error("File is empty !" );
-            return "home.html";
         }
 
 
-        try {
-
-            // Get the file data
-            byte[] Databytes = file.getBytes();
-
-            log.info("=> Databytes ="+Databytes);
-
-            log.info("===========> file.getName() "+file.getName() );
-            log.info("===========> file.getOriginalFilename() "+file.getOriginalFilename() );
-            log.info("===========> file.getContentType() "+file.getContentType() );
-            log.info("===========> file.getSize() "+Long.toString(file.getSize()) );
-
-            //save file data into the database under BLOB
-            fileService.createFile(new File(null,  file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), 1, Databytes) );
-
-            model.addAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
+        // !!!! Check if this could be worked around by in-memory process !!!! rather than calling DB all the time
         User user =userService.getUser(username);
         userid=user.getUserid();
         model.addAttribute("FileList", fileService.GetFileList(userid) );
@@ -206,6 +216,76 @@ public class HomeController {
 
         return "home.html";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @PostMapping("/UploadNote")
+    //@RequestParam("file") +> so a file is expected, otherwise throw an error
+    public String UploadNote(@RequestParam("fileUpload") MultipartFile file , Model model, HttpServletRequest req,Authentication authentication) {
+
+        log.info("===========> in Home -  POST =>FileUpload called : "+req.getRequestURL());
+
+        String username=authentication.getName();
+        Integer userid;
+
+        if (!file.isEmpty()) {
+
+            try {
+
+                // Get the file data
+                byte[] Databytes = file.getBytes();
+
+                log.info("=> Databytes =" + Databytes);
+
+                log.info("===========> file.getName() " + file.getName());
+                log.info("===========> file.getOriginalFilename() " + file.getOriginalFilename());
+                log.info("===========> file.getContentType() " + file.getContentType());
+                log.info("===========> file.getSize() " + Long.toString(file.getSize()));
+
+                //save file data into the database under BLOB
+                fileService.createFile(new File(null, file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), 1, Databytes));
+
+                model.addAttribute("message",
+                        "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+
+            model.addAttribute("message", "Incorrect File Upload");
+            log.error("File is empty !" );
+        }
+
+
+        // !!!! Check if this could be worked around by in-memory process !!!! rather than calling DB all the time
+        User user =userService.getUser(username);
+        userid=user.getUserid();
+        model.addAttribute("FileList", fileService.GetFileList(userid) );
+
+
+        return "home.html";
+    }
+
+
+
 
 
 
