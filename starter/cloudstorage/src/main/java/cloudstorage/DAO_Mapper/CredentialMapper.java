@@ -14,10 +14,10 @@ public interface CredentialMapper {
     @Select("SELECT credentialid,url,username,key,password,userid FROM CREDENTIALS WHERE userid = #{userid}")
     List<Credential> findCredentials(Integer userid);
 
-    @Select("SELECT credentialid,url,username,key,password,userid FROM CREDENTIALS WHERE credentialid = #{credentialid}")
+    @Select("SELECT credentialid,url,username,key,password,userid FROM CREDENTIALS WHERE credentialid = #{credentialid})")
     Credential GetCredential(Integer credentialid);
 
-    @Insert("INSERT INTO user (url,username,key,password,userid FROM CREDENTIALS) VALUES(#{url}, #{username},#{key}, #{password},#{userid})")
+    @Insert("INSERT INTO CREDENTIALS (url,username,key,password,userid) VALUES(#{url}, #{username},#{key}, #{password},#{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialid")
     int insertCredential(Credential credentials);
 

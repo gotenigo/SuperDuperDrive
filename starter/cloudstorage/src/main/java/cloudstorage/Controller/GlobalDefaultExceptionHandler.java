@@ -25,7 +25,8 @@ public class GlobalDefaultExceptionHandler  {
 
     //public static final String DEFAULT_ERROR_VIEW = "error";
 
-
+//You need to handle as well  this ::
+    //TemplateInputException
 
     @ResponseStatus(HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -39,10 +40,12 @@ public class GlobalDefaultExceptionHandler  {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
-    public void handleRuntimeException(RuntimeException e) {
+    public void handleRuntimeException(RuntimeException e,HttpServletRequest req,Exception  ex) {
         // Implementation details...
 
         log.error("=> We are in the handleRuntimeException :  HttpStatus.INTERNAL_SERVER_ERROR !");
+
+        log.error("Request: " + req.getRequestURL() + " raised " + ex  + "runtimeException :"+e );
     }
 
 

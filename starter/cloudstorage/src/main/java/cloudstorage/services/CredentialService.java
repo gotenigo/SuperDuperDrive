@@ -3,10 +3,13 @@ package cloudstorage.services;
 import cloudstorage.DAO_Mapper.CredentialMapper;
 import cloudstorage.Model.DAO.Credential;
 import cloudstorage.Model.DAO.Note;
+import cloudstorage.services.Security.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -18,11 +21,18 @@ public class CredentialService {
     @Autowired
     private CredentialMapper credentialMapper;
 
+    @Autowired
+    private EncryptionService encryptionService;
+
 
 
     public int createCredential(Credential cred) {
         log.info("==>GG.....createCredential called :"+cred+" \n");
-        return credentialMapper.insertCredential(cred);
+
+        String key= getKey();
+        String encryptedPassword = encryptionService.encryptValue(cred.getPassword() ,key);
+
+        return credentialMapper.insertCredential(new Credential(null,cred.getUrl(),cred.getUsername(),key,encryptedPassword,cred.getUserid()));
     }
 
 
@@ -35,7 +45,7 @@ public class CredentialService {
 
 
     public List<Credential> GetCrendentialsList(Integer userid) {
-        log.info("==>GG.....GetNoteList called :"+userid+" \n");
+        log.info("==>GG.....GetCrendentialsList called :"+userid+" \n");
         return credentialMapper.findCredentials(userid);
     }
 
@@ -43,7 +53,26 @@ public class CredentialService {
 
     public Credential ViewCrendentials(Integer credentialid) {
         log.info("==>GG.....ViewNote called :"+credentialid+" \n");
-        return credentialMapper.GetCredential(credentialid);
+
+        Credential CVred = credentialMapper.GetCredential(credentialid);
+
+        String decryptedPassword = encryptionService.decryptValue(CVred.getPassword(), CVred.getKey());
+        CVred.setPassword(decryptedPassword);
+
+        return CVred;
+    }
+
+
+
+
+    public String getKey(){
+
+        SecureRandom random = new SecureRandom();
+        byte[] key = new byte[16];
+        random.nextBytes(key);
+        String encodedKey = Base64.getEncoder().encodeToString(key);
+
+        return encodedKey;
     }
 
 
