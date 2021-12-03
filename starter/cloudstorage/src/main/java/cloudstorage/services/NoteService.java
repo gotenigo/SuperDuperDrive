@@ -28,6 +28,12 @@ public class NoteService {
     }
 
 
+    public int UpdateNote(Note note) {
+        log.info("==>GG.....UpdateNote called :"+note+" \n");
+        return noteMapper.UpdateNote(note);
+    }
+
+
 
     public void DeleteNote(Integer noteid) {
         log.info("==>GG.....DeleteNote called :"+noteid+" \n");
@@ -47,6 +53,8 @@ public class NoteService {
         log.info("==>GG.....ViewNote called :"+noteid+" \n");
         return noteMapper.GetNote(noteid);
     }
+
+
 
 
 

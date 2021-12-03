@@ -1,45 +1,41 @@
-package cloudstorage.Model.DAO;
+package cloudstorage.Model.Form;
 
-public class Credential {
+public class CredentialModal {
 
 
-    private Integer credentialid;
+    private Integer credentialId;
     private String url;
     private String username;
     private String key;
     private String password;
-    private Integer userid;
 
 
-    public Credential(Integer credentialid, String url, String username, String key, String password, Integer userid) {
-        this.credentialid = credentialid;
+    public CredentialModal(Integer credentialId, String url, String username, String key, String password) {
+        this.credentialId = credentialId;
         this.url = url;
         this.username = username;
         this.key = key;
         this.password = password;
-        this.userid = userid;
     }
-
 
     @Override
     public String toString() {
-        return "Credential{" +
-                "credentialid=" + credentialid +
+        return "CredentialModal{" +
+                "credentialId=" + credentialId +
                 ", url='" + url + '\'' +
                 ", username='" + username + '\'' +
                 ", key='" + key + '\'' +
                 ", password='" + password + '\'' +
-                ", userid=" + userid +
                 '}';
     }
 
 
-    public Integer getCredentialid() {
-        return credentialid;
+    public Integer getCredentialId() {
+        return credentialId;
     }
 
-    public void setCredentialid(Integer credentialid) {
-        this.credentialid = credentialid;
+    public void setCredentialId(Integer credentialId) {
+        this.credentialId = credentialId;
     }
 
     public String getUrl() {
@@ -72,13 +68,5 @@ public class Credential {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
     }
 }

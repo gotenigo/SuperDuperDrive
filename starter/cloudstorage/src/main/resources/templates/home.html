@@ -96,9 +96,9 @@
                                 </thead>
                                 <tbody>
 
-                                    <tr th:each="vNote: ${NoteList}">
+                                    <tr th:each="vNote: ${NoteList}">           <!----  !!!! CODE YOUR PARAM HERE !!!!!! ------>
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
+                                            <button type="button" class="btn btn-success"  onclick="showNoteModal('1', 'ggnoteTitle', 'ggnoteDescription')" >Edit</button>
                                             <a th:href="@{/home/Note/Delete(noteid=${vNote.noteid})}" class="btn btn-danger">Delete</a>
                                         </td>
                                         <th scope="row"  th:text="${vNote.notetitle}" >Example Note Title</th>
@@ -175,9 +175,9 @@
                                 <tbody>
 
 
-                                <tr th:each="vCredential: ${CredentialList}" >
+                                <tr th:each="vCredential: ${CredentialList}" >  <!----  !!!! CODE YOUR PARAM HERE !!!!!! ------>
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
+                                        <button type="button" class="btn btn-success" onclick="showCredentialModal('1', 'url', 'username', 'password')">Edit</button>
                                         <a th:href="@{/home/Credential/Delete(credentialid=${vCredential.credentialid})}" class="btn btn-danger">Delete</a>
                                     </td>
                                     <th th:text="${vCredential.url}" scope="row">Example Credential URL</th>
@@ -190,6 +190,8 @@
                             </table>
                         </div>
 
+
+                        <!------================================== Credential Modal  id="credentialModal" =====================================------>
                         <div class="modal fade" id="credentialModal" tabindex="-1" role="dialog" aria-labelledby="credentialModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -199,11 +201,6 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-
-
-
-
-
 
 
                                     <div class="modal-body">
@@ -225,9 +222,6 @@
                                         </form>
                                     </div>
 
-
-
-
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
@@ -235,6 +229,10 @@
                                 </div>
                             </div>
                         </div>
+                        <!------================================== ENd of Credential Model =====================================------>
+
+
+
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@ public interface CredentialMapper {
 
 
     @Update("UPDATE CREDENTIALS SET url=#{url},username=#{username},key=#{key},password=#{password} WHERE credentialid = #{credentialid}")
-    int UpdateCredential(Integer credentialid);
+    int UpdateCredential(Credential credentials);
 
 
 

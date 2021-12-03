@@ -4,7 +4,7 @@ package cloudstorage.Controller;
 import cloudstorage.Model.DAO.Credential;
 import cloudstorage.Model.DAO.Note;
 import cloudstorage.Model.DAO.User;
-import cloudstorage.Model.Form.CredentialForm;
+import cloudstorage.Model.Form.CredentialModal;
 import cloudstorage.services.CredentialService;
 import cloudstorage.services.NoteService;
 import cloudstorage.services.UserService;
@@ -34,25 +34,6 @@ public class CredentialController {
     private CredentialService credentialService;
     @Autowired
     private UserService userService;
-
-
-
-
-
-
-
-    @GetMapping("/Credential/Edit")
-    public String  EditCredential(HttpServletResponse response, @RequestParam Integer credentialid /* URL param :: ?id=fileId*/, Model model, Authentication authentication) throws IOException {
-
-        /*******************************************************************
-         !!! Add  here an IN-MEMORY security check that the fileid belongs to that user
-         ****************************************************************************/
-
-        log.info("===========> in Home -  Get =>EditCredential called   with Param noteid="+credentialid);
-
-        return "redirect:/home";
-
-    }
 
 
 
@@ -110,28 +91,36 @@ public class CredentialController {
      *******************************************************************************/
     @PostMapping("/AddCredential")
     //@RequestParam("file") +> so a file is expected, otherwise throw an error
-    public String AddCredential(Credential credential, Model model, HttpServletRequest req, Authentication authentication) throws IOException {
+    public String AddCredential(CredentialModal credentialModal, Model model, HttpServletRequest req, Authentication authentication) throws IOException {
 
         log.info("*******************> in Home -  POST => !!AddCredential!! called : "+req.getRequestURL());
+        log.info("***>credentialModal="+credentialModal);
 
-
-        String username=authentication.getName();
         Integer userid;
+        String username=authentication.getName();
+
 
         User user =userService.getUser(username);
         userid=user.getUserid();
-        log.info("===========> userid ="+userid);
 
-        credential.setUserid(userid);
+        log.info("***>credentialModal.getCredentialId()="+credentialModal.getCredentialId());
+        Credential credential= new Credential(credentialModal.getCredentialId(), credentialModal.getUrl(),
+                credentialModal.getUsername(), null, credentialModal.getPassword(),userid);
+
+        int re;
+        if (credentialModal.getCredentialId()==null) {
+            re=credentialService.createCredential(credential);
+        }else{
+            re=credentialService.UpdateCredential(credential);
+        }
+        log.info("===========> Return on Update re = " + re);
 
 
-        credentialService.createCredential(credential);
+        // for security reason. The GC will dispose from here
+        credentialModal.setPassword(null);
 
 
-
-
-
-        log.info("*********************END of UploadNote");
+        log.info("*********************END of AddCredential");
         return "redirect:/home";
     }
 

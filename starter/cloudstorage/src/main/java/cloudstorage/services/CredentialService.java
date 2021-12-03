@@ -32,8 +32,20 @@ public class CredentialService {
         String key= getKey();
         String encryptedPassword = encryptionService.encryptValue(cred.getPassword() ,key);
 
-        return credentialMapper.insertCredential(new Credential(null,cred.getUrl(),cred.getUsername(),key,encryptedPassword,cred.getUserid()));
+        return credentialMapper.insertCredential(new Credential(cred.getCredentialid(),cred.getUrl(),cred.getUsername(),key,encryptedPassword,cred.getUserid()));
     }
+
+
+
+    public int UpdateCredential(Credential cred) {
+        log.info("==>GG.....Service UpdateCredential called :"+cred+" \n");
+
+        String key= getKey();
+        String encryptedPassword = encryptionService.encryptValue(cred.getPassword() ,key);
+
+        return credentialMapper.UpdateCredential(new Credential(cred.getCredentialid(),cred.getUrl(),cred.getUsername(),key,encryptedPassword,cred.getUserid()));
+    }
+
 
 
 
@@ -61,6 +73,15 @@ public class CredentialService {
 
         return CVred;
     }
+
+
+
+
+
+
+
+
+
 
 
 

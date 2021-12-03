@@ -49,27 +49,6 @@ public class NoteController {
 
 
 
-    @GetMapping("/Note/Edit")
-    public String  EditNote(HttpServletResponse response, @RequestParam Integer noteid /* URL param :: ?id=fileId*/, Model model, Authentication authentication) throws IOException {
-
-        /*******************************************************************
-         !!! Add  here an IN-MEMORY security check that the fileid belongs to that user
-         ****************************************************************************/
-
-        log.info("===========> in Home -  Get =>EditNote called   with Param noteid="+noteid);
-
-        return "redirect:/home";
-
-    }
-
-
-
-
-
-
-
-
-
     @GetMapping("/Note/Delete")
     public String DeleteNote(@RequestParam Integer noteid /* URL param :: ?id=fileId*/, Model model,Authentication authentication) {
 
@@ -118,12 +97,13 @@ public class NoteController {
      *******************************************************************************/
     @PostMapping("/AddNote")
     //@RequestParam("file") +> so a file is expected, otherwise throw an error
-    public String AddNote(@RequestParam("noteTitle") String noteTitle,@RequestParam("noteDescription") String noteDescription, Model model, HttpServletRequest req, Authentication authentication) throws IOException {
+    public String AddNote(@RequestParam("noteId") Integer noteId,@RequestParam("noteTitle") String noteTitle,@RequestParam("noteDescription") String noteDescription, Model model, HttpServletRequest req, Authentication authentication) throws IOException {
 
         log.info("*******************> in Home -  POST => !!UploadNote!! called : "+req.getRequestURL());
 
         log.info("*******************> in Home -  POST => notetitle : "+noteTitle);
         log.info("*******************> in Home -  POST => notetitle : "+noteDescription);
+        log.info("*******************> in Home -  POST => noteId : "+noteId);
 
         String username=authentication.getName();
         Integer userid;
@@ -133,13 +113,16 @@ public class NoteController {
         log.info("===========> userid ="+userid);
 
 
-        if (!Strings.isNullOrEmpty( noteTitle )  && !Strings.isNullOrEmpty( noteDescription ) ) {
+        if (!Strings.isNullOrEmpty( noteTitle )  /*&& !Strings.isNullOrEmpty( noteDescription )*/ ) {
 
-            //save file data into the database under BLOB
-            int re = noteService.createNote(new Note(null, noteTitle, noteDescription, userid));
+            int re;
+            if (noteId==null) {
+                 re= noteService.createNote(new Note(null, noteTitle, noteDescription, userid));
+            }else{
+                re= noteService.UpdateNote(new Note(noteId, noteTitle, noteDescription, userid));
+            }
 
             log.info("===========> Return on Insert re = " + re);
-
             model.addAttribute("message",
                     "You successfully uploaded Note '" + noteTitle + "'");
 
