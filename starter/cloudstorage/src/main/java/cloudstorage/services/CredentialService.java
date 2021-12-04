@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -37,6 +38,10 @@ public class CredentialService {
 
 
 
+
+
+
+
     public int UpdateCredential(Credential cred) {
         log.info("==>GG.....Service UpdateCredential called :"+cred+" \n");
 
@@ -49,6 +54,8 @@ public class CredentialService {
 
 
 
+
+
     public void DeleteCredential(Integer noteid) {
         log.info("==>GG.....DeleteCredential  called :"+noteid+" \n");
         credentialMapper.delete(noteid);
@@ -56,10 +63,43 @@ public class CredentialService {
 
 
 
+
+
+
+    public List<Credential> GetDecryptedCrendentialsList(Integer userid) {
+        log.info("==>GG.....GetCrendentialsList called :"+userid+" \n");
+
+
+        List DecryptedCredList = credentialMapper.findCredentials(userid);
+
+        //Decrypt the Credential before returning
+        for (Iterator<Credential> iter = DecryptedCredList.iterator(); iter.hasNext(); ) {
+            Credential e = iter.next();
+
+            String pass = e.getPassword();
+            String key =e.getKey();
+            String DecryptedPassword = encryptionService.decryptValue(pass ,key);
+            e.setPassword(DecryptedPassword);
+        }
+
+        return DecryptedCredList;
+    }
+
+
+
+
+
     public List<Credential> GetCrendentialsList(Integer userid) {
         log.info("==>GG.....GetCrendentialsList called :"+userid+" \n");
+
         return credentialMapper.findCredentials(userid);
     }
+
+
+
+
+
+
 
 
 
@@ -73,12 +113,6 @@ public class CredentialService {
 
         return CVred;
     }
-
-
-
-
-
-
 
 
 

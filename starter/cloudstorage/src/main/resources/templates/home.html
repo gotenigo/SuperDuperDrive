@@ -98,7 +98,7 @@
 
                                     <tr th:each="vNote: ${NoteList}">           <!----  !!!! CODE YOUR PARAM HERE !!!!!! ------>
                                         <td>
-                                            <button type="button" class="btn btn-success"  onclick="showNoteModal('1', 'ggnoteTitle', 'ggnoteDescription')" >Edit</button>
+                                            <button type="button" class="btn btn-success"  data-toggle="modal"  data-target="#showNoteModal" th:vnoteId="${vNote.noteid}" th:vnoteTitle="${vNote.notetitle}" th:vnoteDescription="${vNote.notedescription}"  th:onclick="showNoteModal(this.getAttribute('vnoteId'), this.getAttribute('vnoteTitle'), this.getAttribute('vnoteDescription'))" >Edit</button>
                                             <a th:href="@{/home/Note/Delete(noteid=${vNote.noteid})}" class="btn btn-danger">Delete</a>
                                         </td>
                                         <th scope="row"  th:text="${vNote.notetitle}" >Example Note Title</th>
@@ -177,7 +177,7 @@
 
                                 <tr th:each="vCredential: ${CredentialList}" >  <!----  !!!! CODE YOUR PARAM HERE !!!!!! ------>
                                     <td>
-                                        <button type="button" class="btn btn-success" onclick="showCredentialModal('1', 'url', 'username', 'password')">Edit</button>
+                                        <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#showCredentialModal" th:vcredentialid="${vCredential.credentialid}" th:vurl="${vCredential.url}" th:vusername="${vCredential.username}" th:vpassword="${vCredential.password}" th:onclick="showCredentialModal(this.getAttribute('vcredentialid'), this.getAttribute('vurl'), this.getAttribute('vusername'), this.getAttribute('vpassword'))"                >Edit</button>
                                         <a th:href="@{/home/Credential/Delete(credentialid=${vCredential.credentialid})}" class="btn btn-danger">Delete</a>
                                     </td>
                                     <th th:text="${vCredential.url}" scope="row">Example Credential URL</th>
