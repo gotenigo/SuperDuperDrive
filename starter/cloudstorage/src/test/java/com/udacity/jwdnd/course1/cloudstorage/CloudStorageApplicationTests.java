@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
 
@@ -14,6 +16,9 @@ class CloudStorageApplicationTests {
 	private int port;
 
 	private WebDriver driver;
+
+	public String baseURL;
+
 
 	@BeforeAll
 	static void beforeAll() {
@@ -37,5 +42,40 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + this.port + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
+
+
+
+	@Test
+	public void testUserSignupLoginAndSubmitMessage() {
+		String username = "pzastoup";
+		String password = "whatabadpassword";
+		String messageText = "Hello!";
+
+
+		driver.get(baseURL + "/signup");
+
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.signup("Peter", "Zastoupil", username, password);
+
+		driver.get(baseURL + "/login");
+
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.login(username, password);
+
+		/*
+		ChatPage chatPage = new ChatPage(driver);
+		chatPage.sendChatMessage(messageText);
+
+		ChatMessage sentMessage = chatPage.getFirstMessage();
+
+		assertEquals(username, sentMessage.getUsername());
+		assertEquals(messageText, sentMessage.getMessageText());
+		*/
+
+	}
+
+
+
+
 
 }
