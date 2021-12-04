@@ -9,6 +9,7 @@ public class Credential {
     private String key;
     private String password;
     private Integer userid;
+    private String Decrypted_pass;
 
 
     public Credential(Integer credentialid, String url, String username, String key, String password, Integer userid) {
@@ -19,6 +20,7 @@ public class Credential {
         this.password = password;
         this.userid = userid;
     }
+
 
 
     @Override
@@ -33,6 +35,13 @@ public class Credential {
                 '}';
     }
 
+    public String getDecrypted_pass() {
+        return Decrypted_pass;
+    }
+
+    public void setDecrypted_pass(String decrypted_pass) {
+        Decrypted_pass = decrypted_pass;
+    }
 
     public Integer getCredentialid() {
         return credentialid;

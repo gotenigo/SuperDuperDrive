@@ -79,7 +79,7 @@ public class CredentialService {
             String pass = e.getPassword();
             String key =e.getKey();
             String DecryptedPassword = encryptionService.decryptValue(pass ,key);
-            e.setPassword(DecryptedPassword);
+            e.setDecrypted_pass(DecryptedPassword);
         }
 
         return DecryptedCredList;
@@ -109,7 +109,7 @@ public class CredentialService {
         Credential CVred = credentialMapper.GetCredential(credentialid);
 
         String decryptedPassword = encryptionService.decryptValue(CVred.getPassword(), CVred.getKey());
-        CVred.setPassword(decryptedPassword);
+        CVred.setDecrypted_pass(decryptedPassword);
 
         return CVred;
     }

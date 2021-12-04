@@ -33,13 +33,17 @@ public class NoteController {
 
 
 
-    @Autowired
-    private NoteService noteService;
+
     @Autowired
     private UserService userService;
 
 
-
+    @Autowired
+    private NoteService noteService;
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private CredentialService credentialService;
 
 
 
@@ -66,7 +70,12 @@ public class NoteController {
 
         noteService.DeleteNote(noteid);
 
-        return "redirect:/home";
+
+        model.addAttribute("ViewFileTab", false);
+        model.addAttribute("ViewNoteTab", true);
+        model.addAttribute("ViewCredTab", false);
+
+        return "home/Note";
     }
 
 
@@ -123,18 +132,27 @@ public class NoteController {
             }
 
             log.info("===========> Return on Insert re = " + re);
-            model.addAttribute("message",
-                    "You successfully uploaded Note '" + noteTitle + "'");
+            model.addAttribute("NoteMessageReturn",
+                    "You successfully uploaded Note Titled '" + noteTitle + "'");
 
         }else {
 
-            model.addAttribute("message", "Incorrect Note Upload");
+            model.addAttribute("NoteMessageReturn", "Incorrect Note Upload");
             log.error("File is empty !" );
         }
 
+        model.addAttribute("ViewFileTab", false);
+        model.addAttribute("ViewNoteTab", true);
+        model.addAttribute("ViewCredTab", false);
+
+
+        model.addAttribute("FileList", fileService.GetFileList(userid) );
+        model.addAttribute("NoteList", noteService.GetNoteList(userid) );
+        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+
 
         log.info("*********************END of UploadNote");
-        return "redirect:/home";
+        return "home";
     }
 
 

@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Which authentication methods are allowed (formLogin(), httpBasic()) and how they are configured.
         http.formLogin()   //form based authentication is supported
                 .loginPage("/login") //define your custom login page
+                .failureUrl("/login?error=true")
                 .permitAll();  //to allow any access to any URL (i.e. /login and /login?error) associated to formLogin().
 
 

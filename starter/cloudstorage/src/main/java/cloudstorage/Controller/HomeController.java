@@ -35,18 +35,16 @@ import java.util.List;
 @RequestMapping("/home")
 public class HomeController {
 
-    @Autowired
-    private FileService fileService;
 
     @Autowired
     private UserService userService;
 
     @Autowired
     private NoteService noteService;
-
+    @Autowired
+    private FileService fileService;
     @Autowired
     private CredentialService credentialService;
-
 
 
 
@@ -86,12 +84,13 @@ public class HomeController {
         log.info("===========> userid ="+userid);
 
 
+        model.addAttribute("ViewFileTab", true); // File view is activated by default
+        model.addAttribute("ViewNoteTab", false);
+        model.addAttribute("ViewCredTab", false);
 
 
         model.addAttribute("FileList", fileService.GetFileList(userid) );
-
         model.addAttribute("NoteList", noteService.GetNoteList(userid) );
-
         model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
 
 

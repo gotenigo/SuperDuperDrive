@@ -3,7 +3,9 @@ package cloudstorage.Controller;
 
 import cloudstorage.Model.DAO.File;
 import cloudstorage.Model.DAO.User;
+import cloudstorage.services.CredentialService;
 import cloudstorage.services.FileService;
+import cloudstorage.services.NoteService;
 import cloudstorage.services.UserService;
 import com.google.common.io.ByteSource;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +37,17 @@ public class FileController {
     private UserService userService;
 
 
+    @Autowired
+    private CredentialService credentialService;
+    @Autowired
+    private NoteService noteService;
 
 
 
 
 
 
-
+    //this function CReate a new view. So Tab management is not required !
     @GetMapping("/File/View")
     public void ViewFile(HttpServletResponse response, @RequestParam Integer fileId /* URL param :: ?id=fileId*/, Model model, Authentication authentication) throws IOException {
 
@@ -98,8 +104,12 @@ public class FileController {
 
         fileService.DeleteFile(fileId);
 
+        model.addAttribute("ViewFileTab", true);
+        model.addAttribute("ViewNoteTab", false);
+        model.addAttribute("ViewCredTab", false);
 
-        return "redirect:/home";
+
+        return "home";
     }
 
 
@@ -150,20 +160,31 @@ public class FileController {
 
                 log.info("===========> Return on Insert re = " + re);
 
-                model.addAttribute("message",
-                        "You successfully uploaded '" + file.getOriginalFilename() + "'");
+                model.addAttribute("FileMessageReturn",
+                        "You successfully uploaded file '" + file.getOriginalFilename() + "'");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else {
 
-            model.addAttribute("message", "Incorrect File Upload");
+            model.addAttribute("FileMessageReturn", "Incorrect File Upload");
             log.error("File is empty !" );
         }
 
 
-        return "redirect:/home";
+        model.addAttribute("ViewFileTab", true);
+        model.addAttribute("ViewNoteTab", false);
+        model.addAttribute("ViewCredTab", false);
+
+
+        model.addAttribute("FileList", fileService.GetFileList(userid) );
+        model.addAttribute("NoteList", noteService.GetNoteList(userid) );
+        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+
+
+
+        return "home";
     }
 
 

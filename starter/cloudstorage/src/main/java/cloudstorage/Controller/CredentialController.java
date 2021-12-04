@@ -6,6 +6,7 @@ import cloudstorage.Model.DAO.Note;
 import cloudstorage.Model.DAO.User;
 import cloudstorage.Model.Form.CredentialModal;
 import cloudstorage.services.CredentialService;
+import cloudstorage.services.FileService;
 import cloudstorage.services.NoteService;
 import cloudstorage.services.UserService;
 import com.google.common.base.Strings;
@@ -29,15 +30,15 @@ import java.io.IOException;
 public class CredentialController {
 
 
-
-    @Autowired
-    private CredentialService credentialService;
     @Autowired
     private UserService userService;
 
-
-
-
+    @Autowired
+    private NoteService noteService;
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private CredentialService credentialService;
 
 
 
@@ -58,9 +59,16 @@ public class CredentialController {
         Integer userid;
         log.info("===========> username ="+username);
 
+
+
+        model.addAttribute("ViewFileTab", false);
+        model.addAttribute("ViewNoteTab", false);
+        model.addAttribute("ViewCredTab", true);
+
+
         credentialService.DeleteCredential(credentialid);
 
-        return "redirect:/home";
+        return "home";
     }
 
 
@@ -116,12 +124,26 @@ public class CredentialController {
         log.info("===========> Return on Update re = " + re);
 
 
+        model.addAttribute("CredMessageReturn",
+                "You successfully uploaded Crendential for username '" + credentialModal.getUsername() + "'");
+
+
         // for security reason. The GC will dispose from here
         credentialModal.setPassword(null);
 
 
+        model.addAttribute("ViewFileTab", false);
+        model.addAttribute("ViewNoteTab", false);
+        model.addAttribute("ViewCredTab", true);
+
+
+        model.addAttribute("FileList", fileService.GetFileList(userid) );
+        model.addAttribute("NoteList", noteService.GetNoteList(userid) );
+        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+
+
         log.info("*********************END of AddCredential");
-        return "redirect:/home";
+        return "home";
     }
 
 
