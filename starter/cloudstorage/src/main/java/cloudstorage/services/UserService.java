@@ -22,9 +22,12 @@ public class UserService {
     private HashService hashService;
 
 
+
     public boolean isUsernameAvailable(String username) {
         return userMapper.getUser(username) == null;
     }
+
+
 
     public int createUser(User user) {
         SecureRandom random = new SecureRandom();
@@ -40,14 +43,14 @@ public class UserService {
 
 
 
-    public boolean isUserValid(User user){
 
+
+    public boolean isUserValid(User user){
 
         boolean value=false;
 
-        System.out.println("=> We are in isUserValid !");
-        System.out.println(user);
-
+        //log.debug("=> We are in isUserValid !");
+        //log.debug("user is ="+user);
 
         String password=user.getPassword();
         String username=user.getUsername();
@@ -61,8 +64,6 @@ public class UserService {
 
         return value;
     }
-
-
 
     public User getUser(String username) {
         return userMapper.getUser(username);

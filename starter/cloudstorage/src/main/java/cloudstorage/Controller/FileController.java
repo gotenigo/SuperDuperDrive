@@ -97,17 +97,15 @@ public class FileController {
 
 
         String username=authentication.getName();
-        Integer userid;
+        User user =userService.getUser(username);
+        Integer userid=user.getUserid();
+
         log.info("===========> username ="+username);
 
 
+        fileService.DeleteFile(fileId,userid);
 
-        fileService.DeleteFile(fileId);
-
-        model.addAttribute("ViewFileTab", true);
-        model.addAttribute("ViewNoteTab", false);
-        model.addAttribute("ViewCredTab", false);
-
+        RefreshUserView( model,  userid );
 
         return "home";
     }
@@ -172,21 +170,30 @@ public class FileController {
             log.error("File is empty !" );
         }
 
+        RefreshUserView( model,  userid );
+
+        return "home";
+    }
+
+
+
+
+
+
+
+
+    public Model RefreshUserView(Model model, Integer userid ){
 
         model.addAttribute("ViewFileTab", true);
         model.addAttribute("ViewNoteTab", false);
         model.addAttribute("ViewCredTab", false);
 
-
         model.addAttribute("FileList", fileService.GetFileList(userid) );
         model.addAttribute("NoteList", noteService.GetNoteList(userid) );
         model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
 
-
-
-        return "home";
+        return model;
     }
-
 
 
 

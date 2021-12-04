@@ -21,25 +21,25 @@ public class FileService {
 
 
     public int createFile(File file) {
-        log.info("==>GG.....createFile called :"+file+" \n");
+        //log.debug("==>.....createFile called :"+file+" \n");
         return fileMapper.insertFile(file);
     }
 
 
-    public void DeleteFile(Integer fileId) {
-        log.info("==>GG.....DeleteFile called :"+fileId+" \n");
-        fileMapper.delete(fileId);
+    public void DeleteFile(Integer fileId,Integer userid) {
+        //log.debug("==>.....DeleteFile called :"+fileId+" \n");
+        fileMapper.delete(fileId,userid);
     }
 
 
     public List<File> GetFileList(Integer userid) {
-        log.info("==>GG.....GetFiles called :"+userid+" \n");
+        //log.debug("==>.....GetFiles called :"+userid+" \n");
         return fileMapper.findFiles(userid);
     }
 
 
     public File ViewFile(Integer fileId) {
-        log.info("==>GG.....ViewFile called :"+fileId+" \n");
+        //log.debug("==>.....ViewFile called :"+fileId+" \n");
         return fileMapper.GetFile(fileId);
     }
 

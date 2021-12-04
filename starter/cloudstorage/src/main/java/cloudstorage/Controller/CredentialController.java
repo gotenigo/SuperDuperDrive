@@ -2,14 +2,12 @@ package cloudstorage.Controller;
 
 
 import cloudstorage.Model.DAO.Credential;
-import cloudstorage.Model.DAO.Note;
 import cloudstorage.Model.DAO.User;
 import cloudstorage.Model.Form.CredentialModal;
 import cloudstorage.services.CredentialService;
 import cloudstorage.services.FileService;
 import cloudstorage.services.NoteService;
 import cloudstorage.services.UserService;
-import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -56,17 +54,13 @@ public class CredentialController {
 
 
         String username=authentication.getName();
-        Integer userid;
+        User user =userService.getUser(username);
+        Integer userid=user.getUserid();
         log.info("===========> username ="+username);
 
+        credentialService.DeleteCredential(credentialid,userid);
 
-
-        model.addAttribute("ViewFileTab", false);
-        model.addAttribute("ViewNoteTab", false);
-        model.addAttribute("ViewCredTab", true);
-
-
-        credentialService.DeleteCredential(credentialid);
+        RefreshUserView( model,  userid );
 
         return "home";
     }
@@ -102,7 +96,7 @@ public class CredentialController {
     public String AddCredential(CredentialModal credentialModal, Model model, HttpServletRequest req, Authentication authentication) throws IOException {
 
         log.info("*******************> in Home -  POST => !!AddCredential!! called : "+req.getRequestURL());
-        log.info("***>credentialModal="+credentialModal);
+        log.debug("***>credentialModal="+credentialModal);
 
         Integer userid;
         String username=authentication.getName();
@@ -128,18 +122,11 @@ public class CredentialController {
                 "You successfully uploaded Crendential for username '" + credentialModal.getUsername() + "'");
 
 
-        // for security reason. The GC will dispose from here
+        // for security reason :-) This is just a pass through variable
         credentialModal.setPassword(null);
 
 
-        model.addAttribute("ViewFileTab", false);
-        model.addAttribute("ViewNoteTab", false);
-        model.addAttribute("ViewCredTab", true);
-
-
-        model.addAttribute("FileList", fileService.GetFileList(userid) );
-        model.addAttribute("NoteList", noteService.GetNoteList(userid) );
-        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+        RefreshUserView( model,  userid );
 
 
         log.info("*********************END of AddCredential");
@@ -148,6 +135,22 @@ public class CredentialController {
 
 
 
+
+
+
+
+    public Model RefreshUserView(Model model, Integer userid ){
+
+        model.addAttribute("ViewFileTab", false);
+        model.addAttribute("ViewNoteTab", false);
+        model.addAttribute("ViewCredTab", true);
+
+        model.addAttribute("FileList", fileService.GetFileList(userid) );
+        model.addAttribute("NoteList", noteService.GetNoteList(userid) );
+        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+
+        return model;
+    }
 
 
 

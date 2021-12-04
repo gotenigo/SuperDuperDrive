@@ -49,7 +49,7 @@ public class HomeController {
 
 
 
-
+    /*
     @ModelAttribute("Session_User")
     private String  GetCurrentUserSession() {
         String username;
@@ -60,7 +60,7 @@ public class HomeController {
             username = principal.toString();
         }
         return username;
-    }
+    }*/
 
 
 
@@ -83,15 +83,7 @@ public class HomeController {
         userid=user.getUserid();
         log.info("===========> userid ="+userid);
 
-
-        model.addAttribute("ViewFileTab", true); // File view is activated by default
-        model.addAttribute("ViewNoteTab", false);
-        model.addAttribute("ViewCredTab", false);
-
-
-        model.addAttribute("FileList", fileService.GetFileList(userid) );
-        model.addAttribute("NoteList", noteService.GetNoteList(userid) );
-        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+        RefreshUserView( model,  userid );
 
 
         return "home.html";
@@ -99,6 +91,23 @@ public class HomeController {
 
 
 
+
+
+
+
+
+    public Model RefreshUserView(Model model, Integer userid ){
+
+        model.addAttribute("ViewFileTab", true); // File view is activated by default
+        model.addAttribute("ViewNoteTab", false);
+        model.addAttribute("ViewCredTab", false);
+
+        model.addAttribute("FileList", fileService.GetFileList(userid) );
+        model.addAttribute("NoteList", noteService.GetNoteList(userid) );
+        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+
+        return model;
+    }
 
 
 

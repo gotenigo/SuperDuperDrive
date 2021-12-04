@@ -1,6 +1,6 @@
 package cloudstorage.Controller;
 
-import cloudstorage.Model.DAO.File;
+
 import cloudstorage.Model.DAO.Note;
 import cloudstorage.Model.DAO.User;
 import cloudstorage.services.CredentialService;
@@ -8,7 +8,6 @@ import cloudstorage.services.FileService;
 import cloudstorage.services.NoteService;
 import cloudstorage.services.UserService;
 import com.google.common.base.Strings;
-import com.google.common.io.ByteSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,12 +17,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
+
 
 
 @Slf4j
@@ -52,7 +51,6 @@ public class NoteController {
 
 
 
-
     @GetMapping("/Note/Delete")
     public String DeleteNote(@RequestParam Integer noteid /* URL param :: ?id=fileId*/, Model model,Authentication authentication) {
 
@@ -65,26 +63,18 @@ public class NoteController {
 
 
         String username=authentication.getName();
-        Integer userid;
+        User user =userService.getUser(username);
+        Integer userid=user.getUserid();
+
         log.info("===========> username ="+username);
 
-        noteService.DeleteNote(noteid);
+        noteService.DeleteNote(noteid,userid);
+
+        RefreshUserView( model,  userid );
 
 
-        model.addAttribute("ViewFileTab", false);
-        model.addAttribute("ViewNoteTab", true);
-        model.addAttribute("ViewCredTab", false);
-
-        return "home/Note";
+        return "home";
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -141,19 +131,32 @@ public class NoteController {
             log.error("File is empty !" );
         }
 
+
+        RefreshUserView( model,  userid );
+
+        log.info("*********************END of UploadNote");
+        return "home";
+    }
+
+
+
+
+
+
+    public Model RefreshUserView(Model model, Integer userid ){
+
         model.addAttribute("ViewFileTab", false);
         model.addAttribute("ViewNoteTab", true);
         model.addAttribute("ViewCredTab", false);
-
 
         model.addAttribute("FileList", fileService.GetFileList(userid) );
         model.addAttribute("NoteList", noteService.GetNoteList(userid) );
         model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
 
-
-        log.info("*********************END of UploadNote");
-        return "home";
+        return model;
     }
+
+
 
 
 

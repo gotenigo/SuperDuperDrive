@@ -2,7 +2,6 @@ package cloudstorage.services;
 
 import cloudstorage.DAO_Mapper.CredentialMapper;
 import cloudstorage.Model.DAO.Credential;
-import cloudstorage.Model.DAO.Note;
 import cloudstorage.services.Security.EncryptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class CredentialService {
 
 
     public int createCredential(Credential cred) {
-        log.info("==>GG.....createCredential called :"+cred+" \n");
+        //log.debug("==>.....createCredential called :"+cred+" \n");
 
         String key= getKey();
         String encryptedPassword = encryptionService.encryptValue(cred.getPassword() ,key);
@@ -43,7 +42,7 @@ public class CredentialService {
 
 
     public int UpdateCredential(Credential cred) {
-        log.info("==>GG.....Service UpdateCredential called :"+cred+" \n");
+        //log.debug("==>.....Service UpdateCredential called :"+cred+" \n");
 
         String key= getKey();
         String encryptedPassword = encryptionService.encryptValue(cred.getPassword() ,key);
@@ -56,9 +55,9 @@ public class CredentialService {
 
 
 
-    public void DeleteCredential(Integer noteid) {
-        log.info("==>GG.....DeleteCredential  called :"+noteid+" \n");
-        credentialMapper.delete(noteid);
+    public void DeleteCredential(Integer noteid,Integer userid) {
+        //log.debug("==>.....DeleteCredential  called :"+noteid+" \n");
+        credentialMapper.delete(noteid,userid);
     }
 
 
@@ -67,7 +66,7 @@ public class CredentialService {
 
 
     public List<Credential> GetDecryptedCrendentialsList(Integer userid) {
-        log.info("==>GG.....GetCrendentialsList called :"+userid+" \n");
+        //log.debug("==>.....GetCrendentialsList called :"+userid+" \n");
 
 
         List DecryptedCredList = credentialMapper.findCredentials(userid);
@@ -90,8 +89,8 @@ public class CredentialService {
 
 
     public List<Credential> GetCrendentialsList(Integer userid) {
-        log.info("==>GG.....GetCrendentialsList called :"+userid+" \n");
 
+        //log.debug("==>.....GetCrendentialsList called :"+userid+" \n");
         return credentialMapper.findCredentials(userid);
     }
 
