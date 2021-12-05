@@ -1,4 +1,4 @@
-package com.udacity.jwdnd.course1.cloudstorage;
+package cloudstorage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
@@ -37,40 +37,48 @@ class CloudStorageApplicationTests {
 		}
 	}
 
-	@Test
+	@Test  // test we can access to login page as per Spring Security setup
 	public void getLoginPage() {
 		driver.get("http://localhost:" + this.port + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
+		Assertions.assertEquals("Sign In Form", driver.getTitle());
+	}
+
+
+	@Test // test we can singup page  as per Spring Security setup
+	public void getSignUPPage() {
+		driver.get("http://localhost:" + this.port + "/signup");
+		Assertions.assertEquals("Sign Up Form", driver.getTitle());
+	}
+
+
+	@Test // Test UnauthorizedPageAccess get redirected to Login page
+	public void getHomePage() {
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Sign In Form", driver.getTitle());
 	}
 
 
 
-	@Test
+
+	@Test // test that signs up a new user, logs in, verifies that the home page is accessible, logs out, and verifies that the home page is no longer accessible.
 	public void testUserSignupLoginAndSubmitMessage() {
-		String username = "pzastoup";
-		String password = "whatabadpassword";
-		String messageText = "Hello!";
+		baseURL="http://localhost:"+ this.port;
+
+		String username = "gg";
+		String password = "password";
 
 
 		driver.get(baseURL + "/signup");
 
 		SignupPage signupPage = new SignupPage(driver);
-		signupPage.signup("Peter", "Zastoupil", username, password);
+		signupPage.signup("Gothard", "GOTENI", username, password);
 
 		driver.get(baseURL + "/login");
 
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.login(username, password);
 
-		/*
-		ChatPage chatPage = new ChatPage(driver);
-		chatPage.sendChatMessage(messageText);
-
-		ChatMessage sentMessage = chatPage.getFirstMessage();
-
-		assertEquals(username, sentMessage.getUsername());
-		assertEquals(messageText, sentMessage.getMessageText());
-		*/
+		Assertions.assertEquals("Home", driver.getTitle());
 
 	}
 

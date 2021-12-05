@@ -1,5 +1,4 @@
-package com.udacity.jwdnd.course1.cloudstorage;
-
+package cloudstorage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,7 +13,7 @@ public class LoginPage {
     @FindBy(css="#inputPassword")
     private WebElement passwordField;
 
-    @FindBy(css="#submit-button")
+    @FindBy(css="#signin-button")
     private WebElement submitButton;
 
     public LoginPage(WebDriver webDriver) {
