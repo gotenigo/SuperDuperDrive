@@ -151,7 +151,7 @@ public class NoteController {
 
         model.addAttribute("FileList", fileService.GetFileList(userid) );
         model.addAttribute("NoteList", noteService.GetNoteList(userid) );
-        model.addAttribute("CredentialList", credentialService.GetCrendentialsList(userid) );
+        model.addAttribute("CredentialList", credentialService.GetDecryptedCrendentialsList(userid) );
 
         return model;
     }

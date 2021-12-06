@@ -12,7 +12,7 @@
         <div class="container">
             <div id="logoutDiv">
                 <form action="#" th:action="@{/logout}" method="POST">
-                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
+                    <button type="submit" id=LogoutBtn class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
             <div id="contentDiv" style="clear: right;">
@@ -42,7 +42,7 @@
                                         <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
                                     </div>
                                     <div class="col-sm-4">
-                                        <button type="submit" class="btn btn-dark">Upload</button>
+                                        <button type="submit" id="UploadBtn" class="btn btn-dark">Upload</button>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
 
                     <div class="tab-pane fade show" th:classappend="${ViewNoteTab} ? active : ''" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
 
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                        <button style="margin: 0.25em;" id="AddNoteBtn" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
 
@@ -100,11 +100,11 @@
 
                                     <tr th:each="vNote: ${NoteList}">           <!----  !!!! CODE YOUR PARAM HERE !!!!!! ------>
                                         <td>
-                                            <button type="button" class="btn btn-success"  data-toggle="modal"  data-target="#showNoteModal" th:vnoteId="${vNote.noteid}" th:vnoteTitle="${vNote.notetitle}" th:vnoteDescription="${vNote.notedescription}"  th:onclick="showNoteModal(this.getAttribute('vnoteId'), this.getAttribute('vnoteTitle'), this.getAttribute('vnoteDescription'))" >Edit</button>
-                                            <a th:href="@{/home/Note/Delete(noteid=${vNote.noteid})}" class="btn btn-danger">Delete</a>
+                                            <button id="NoteEditBtn" type="button" class="btn btn-success"  data-toggle="modal"  data-target="#showNoteModal" th:vnoteId="${vNote.noteid}" th:vnoteTitle="${vNote.notetitle}" th:vnoteDescription="${vNote.notedescription}"  th:onclick="showNoteModal(this.getAttribute('vnoteId'), this.getAttribute('vnoteTitle'), this.getAttribute('vnoteDescription'))" >Edit</button>
+                                            <a id="NoteDeleteBtn" th:href="@{/home/Note/Delete(noteid=${vNote.noteid})}" class="btn btn-danger">Delete</a>
                                         </td>
-                                        <th scope="row"  th:text="${vNote.notetitle}" >Example Note Title</th>
-                                        <td th:text="${vNote.notedescription}" >Example Note Description </td>
+                                        <th id="ViewNoteTitleID" scope="row"  th:text="${vNote.notetitle}" >Example Note Title</th>
+                                        <td id="ViewNoteDescID" th:text="${vNote.notedescription}" >Example Note Description </td>
                                     </tr>
 
                                 </tbody>
@@ -122,7 +122,6 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-
 
 
 
@@ -145,7 +144,7 @@
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save changes</button>
+                                        <button id="SaveNoteChangeBtn" type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save changes</button>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +159,7 @@
 
 
                     <div class="tab-pane fade show" th:classappend="${ViewCredTab} ? active : ''" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
+                        <button style="margin: 0.25em;" id="AddCredentialBtn" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
                         </button>
 
@@ -183,12 +182,12 @@
 
                                 <tr th:each="vCredential: ${CredentialList}" >  <!----  !!!! CODE YOUR PARAM HERE !!!!!! ------>
                                     <td>
-                                        <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#showCredentialModal" th:vcredentialid="${vCredential.credentialid}" th:vurl="${vCredential.url}" th:vusername="${vCredential.username}" th:vpassword="${vCredential.password}" th:onclick="showCredentialModal(this.getAttribute('vcredentialid'), this.getAttribute('vurl'), this.getAttribute('vusername'), this.getAttribute('vpassword'))"                >Edit</button>
-                                        <a th:href="@{/home/Credential/Delete(credentialid=${vCredential.credentialid})}" class="btn btn-danger">Delete</a>
+                                        <button id="CredentialEditBtn" type="button" class="btn btn-success"  data-toggle="modal" data-target="#showCredentialModal" th:vcredentialid="${vCredential.credentialid}" th:vurl="${vCredential.url}" th:vusername="${vCredential.username}" th:vpassword="${vCredential.Decrypted_pass}"  th:onclick="showCredentialModal(this.getAttribute('vcredentialid'), this.getAttribute('vurl'), this.getAttribute('vusername'), this.getAttribute('vpassword'))"                >Edit</button>
+                                        <a id="CredentialDeleteBtn" th:href="@{/home/Credential/Delete(credentialid=${vCredential.credentialid})}" class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th th:text="${vCredential.url}" scope="row">Example Credential URL</th>
-                                    <td th:text="${vCredential.username}" >Example Credential Username</td>
-                                    <td th:text="${vCredential.password}" >Example Credential Password</td>
+                                    <th id="ViewCredentialUrlID" th:text="${vCredential.url}" scope="row">Example Credential URL</th>
+                                    <td id="ViewCredentialUsernameID" th:text="${vCredential.username}" >Example Credential Username</td>
+                                    <td id="ViewCredentialPasswordID" th:text="${vCredential.password}" >Example Credential Password</td>
                                 </tr>
 
 
@@ -229,8 +228,8 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" id="CloseCredentialModalBtn" data-dismiss="modal">Close</button>
+                                        <button id="SaveCredentialChangeBtn" type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
                                     </div>
                                 </div>
                             </div>
