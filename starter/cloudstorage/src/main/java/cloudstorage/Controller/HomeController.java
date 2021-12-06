@@ -77,11 +77,11 @@ public class HomeController {
 
         String username=authentication.getName();
         Integer userid;
-        log.info("===========> username ="+username);
+        //log.info("===========> username ="+username);
 
         User user =userService.getUser(username);
         userid=user.getUserid();
-        log.info("===========> userid ="+userid);
+        //log.info("===========> userid ="+userid);
 
         RefreshUserView( model,  userid );
 

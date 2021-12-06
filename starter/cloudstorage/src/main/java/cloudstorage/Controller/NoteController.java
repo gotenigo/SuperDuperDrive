@@ -54,19 +54,13 @@ public class NoteController {
     @GetMapping("/Note/Delete")
     public String DeleteNote(@RequestParam Integer noteid /* URL param :: ?id=fileId*/, Model model,Authentication authentication) {
 
-        log.info("===========> in Home -  Get =>DeleteNote called  ");
-
-
-        /*******************************************************************
-         !!! Add  here an IN-MEMORY security check that the fileid belongs to that user
-         ****************************************************************************/
-
+       // log.info("===========> in Home -  Get =>DeleteNote called  ");
 
         String username=authentication.getName();
         User user =userService.getUser(username);
         Integer userid=user.getUserid();
 
-        log.info("===========> username ="+username);
+        //log.info("===========> username ="+username);
 
         noteService.DeleteNote(noteid,userid);
 
@@ -98,18 +92,16 @@ public class NoteController {
     //@RequestParam("file") +> so a file is expected, otherwise throw an error
     public String AddNote(@RequestParam("noteId") Integer noteId,@RequestParam("noteTitle") String noteTitle,@RequestParam("noteDescription") String noteDescription, Model model, HttpServletRequest req, Authentication authentication) throws IOException {
 
-        log.info("*******************> in Home -  POST => !!UploadNote!! called : "+req.getRequestURL());
-
-        log.info("*******************> in Home -  POST => notetitle : "+noteTitle);
-        log.info("*******************> in Home -  POST => notetitle : "+noteDescription);
-        log.info("*******************> in Home -  POST => noteId : "+noteId);
+        //log.info("*******************> in Home -  POST => !!UploadNote!! called : "+req.getRequestURL());
+        //log.info("*******************> in Home -  POST => notetitle : "+noteTitle);
+        //log.info("*******************> in Home -  POST => notetitle : "+noteDescription);
+        //log.info("*******************> in Home -  POST => noteId : "+noteId);
 
         String username=authentication.getName();
         Integer userid;
 
         User user =userService.getUser(username);
         userid=user.getUserid();
-        log.info("===========> userid ="+userid);
 
 
         if (!Strings.isNullOrEmpty( noteTitle )  /*&& !Strings.isNullOrEmpty( noteDescription )*/ ) {

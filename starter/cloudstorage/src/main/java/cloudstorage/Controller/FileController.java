@@ -51,11 +51,6 @@ public class FileController {
     @GetMapping("/File/View")
     public void ViewFile(HttpServletResponse response, @RequestParam Integer fileId /* URL param :: ?id=fileId*/, Model model, Authentication authentication) throws IOException {
 
-        /*******************************************************************
-         !!! Add  here an IN-MEMORY security check that the fileid belongs to that user
-         ****************************************************************************/
-
-
 
         log.info("===========> in Home -  Get =>ViewFile called   with Param fileId="+fileId);
 
@@ -100,11 +95,7 @@ public class FileController {
         User user =userService.getUser(username);
         Integer userid=user.getUserid();
 
-        log.info("===========> username ="+username);
-
-
         fileService.DeleteFile(fileId,userid);
-
         RefreshUserView( model,  userid );
 
         return "home";
@@ -134,10 +125,9 @@ public class FileController {
 
         String username=authentication.getName();
         Integer userid;
-
         User user =userService.getUser(username);
         userid=user.getUserid();
-        log.info("===========> userid ="+userid);
+
 
         if (!file.isEmpty()) {
 
@@ -148,10 +138,10 @@ public class FileController {
 
                 log.info("=> Databytes =" + Databytes);
 
-                log.info("===========> file.getName() " + file.getName());
-                log.info("===========> file.getOriginalFilename() " + file.getOriginalFilename());
-                log.info("===========> file.getContentType() " + file.getContentType());
-                log.info("===========> file.getSize() " + Long.toString(file.getSize()));
+                //log.info("===========> file.getName() " + file.getName());
+               //log.info("===========> file.getOriginalFilename() " + file.getOriginalFilename());
+                //log.info("===========> file.getContentType() " + file.getContentType());
+                //log.info("===========> file.getSize() " + Long.toString(file.getSize()));
 
                 //save file data into the database under BLOB
                 int re =fileService.createFile(new File(null, file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), userid, Databytes));

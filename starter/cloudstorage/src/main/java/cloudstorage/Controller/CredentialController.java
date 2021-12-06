@@ -56,7 +56,7 @@ public class CredentialController {
         String username=authentication.getName();
         User user =userService.getUser(username);
         Integer userid=user.getUserid();
-        log.info("===========> username ="+username);
+       //log.info("===========> username ="+username);
 
         credentialService.DeleteCredential(credentialid,userid);
 
@@ -100,10 +100,9 @@ public class CredentialController {
 
         Integer userid;
         String username=authentication.getName();
-
-
         User user =userService.getUser(username);
         userid=user.getUserid();
+
 
         log.info("***>credentialModal.getCredentialId()="+credentialModal.getCredentialId());
         Credential credential= new Credential(credentialModal.getCredentialId(), credentialModal.getUrl(),
