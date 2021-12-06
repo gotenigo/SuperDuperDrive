@@ -14,6 +14,10 @@ public interface FileMapper {
     List<File> findFiles(Integer userid);
 
 
+    @Select("SELECT fileId,filename,contenttype,filesize,userid,filedata FROM FILES WHERE userid = #{userid} AND filename = #{filename}")
+    File findFilePerName(String filename,Integer userid);
+
+
     @Select("SELECT fileId,filename,contenttype,filesize,userid,filedata FROM FILES WHERE fileId = #{fileId}")
     File GetFile(Integer fileId);
 

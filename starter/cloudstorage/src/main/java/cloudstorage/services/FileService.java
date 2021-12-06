@@ -44,5 +44,15 @@ public class FileService {
     }
 
 
+    public boolean CheckFileAlreadyExist(String filename,Integer userid) {
+        log.debug("==>.....CheckFileAlreadyExist called :"+filename+" \n");
+        boolean value=false;
+        if (fileMapper.findFilePerName(filename,userid) !=null ){
+            value=true;
+        }
+         return value;
+    }
+
+
 
 }

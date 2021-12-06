@@ -133,24 +133,30 @@ public class FileController {
 
             try {
 
-                // Get the file data
-                byte[] Databytes = file.getBytes();
+                log.info("=> file.getName() =" + file.getOriginalFilename());
+                log.info("=> userid =" + userid);
+                if (!fileService.CheckFileAlreadyExist(file.getOriginalFilename(),userid)){
 
-                log.info("=> Databytes =" + Databytes);
+                    // Get the file data
+                     byte[] Databytes = file.getBytes();
 
-                //log.info("===========> file.getName() " + file.getName());
-               //log.info("===========> file.getOriginalFilename() " + file.getOriginalFilename());
-                //log.info("===========> file.getContentType() " + file.getContentType());
-                //log.info("===========> file.getSize() " + Long.toString(file.getSize()));
+                    //log.info("===========> file.getName() " + file.getName());
+                   //log.info("===========> file.getOriginalFilename() " + file.getOriginalFilename());
+                    //log.info("===========> file.getContentType() " + file.getContentType());
+                    //log.info("===========> file.getSize() " + Long.toString(file.getSize()));
 
-                //save file data into the database under BLOB
-                int re =fileService.createFile(new File(null, file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), userid, Databytes));
+                    //save file data into the database under BLOB
+                    int re =fileService.createFile(new File(null, file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), userid, Databytes));
 
-                log.info("===========> Return on Insert re = " + re);
+                    log.info("===========> Return on Insert re = " + re);
 
-                model.addAttribute("FileMessageReturn",
-                        "You successfully uploaded file '" + file.getOriginalFilename() + "'");
-
+                    model.addAttribute("FileMessageReturn",
+                            "You successfully uploaded file '" + file.getOriginalFilename() + "'");
+                }
+                else{
+                    model.addAttribute("FileMessageReturn", "File name already Exist !");
+                    log.error("File is empty !" );
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
