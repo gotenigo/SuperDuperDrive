@@ -98,6 +98,12 @@ public class CredentialController {
         log.info("*******************> in Home -  POST => !!AddCredential!! called : "+req.getRequestURL());
         log.debug("***>credentialModal="+credentialModal);
 
+
+        /*******************************************************************
+         !!! Add  here an IN-MEMORY cache solution to reduce the Workload if implemented with real Database
+         ****************************************************************************/
+
+
         Integer userid;
         String username=authentication.getName();
         User user =userService.getUser(username);

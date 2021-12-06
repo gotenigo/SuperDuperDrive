@@ -85,11 +85,9 @@ public class FileController {
 
         log.info("===========> in Home -  Get =>LoadHomePage called  ");
 
-
         /*******************************************************************
-         !!! Add  here an IN-MEMORY security check that the fileid belongs to that user
+         !!! Add  here an IN-MEMORY cache solution to reduce the Workload if implemented with real Database
          ****************************************************************************/
-
 
         String username=authentication.getName();
         User user =userService.getUser(username);
@@ -122,6 +120,11 @@ public class FileController {
     public String FileUpload(@RequestParam("fileUpload") MultipartFile file , Model model, HttpServletRequest req, Authentication authentication) {
 
         log.info("===========> in Home -  POST =>FileUpload called : "+req.getRequestURL());
+
+
+        /*******************************************************************
+         !!! Add  here an IN-MEMORY cache solution to reduce the Workload if implemented with real Database
+         ****************************************************************************/
 
         String username=authentication.getName();
         Integer userid;

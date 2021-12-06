@@ -97,9 +97,14 @@ public class NoteController {
         //log.info("*******************> in Home -  POST => notetitle : "+noteDescription);
         //log.info("*******************> in Home -  POST => noteId : "+noteId);
 
+
+        /*******************************************************************
+         !!! Add  here an IN-MEMORY cache solution to reduce the Workload if implemented with real Database
+         ****************************************************************************/
+
+
         String username=authentication.getName();
         Integer userid;
-
         User user =userService.getUser(username);
         userid=user.getUserid();
 
